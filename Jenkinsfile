@@ -18,7 +18,8 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build("springboot-deploy:sarthakmht/proj-1:latest")
+          echo("building image")
+          sh './mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${dockerimagename}'
         }
       }
     }
@@ -29,6 +30,7 @@ pipeline {
            }
       steps{
         script {
+          echo("pushing image")
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
             dockerImage.push("latest")
           }
