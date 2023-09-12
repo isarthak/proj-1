@@ -18,7 +18,7 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build("springboot-deploy:${dockerimagename}")
+          dockerImage = docker.build("springboot-deploy:$dockerimagename")
         }
       }
     }
