@@ -4,12 +4,6 @@ pipeline{
         maven 'maven'
     }
     stages{
-        stage('Compile'){
-            agent any
-            steps{
-                sh "mvn compile"
-            }
-        }
         stage('Code Quality'){
             agent any
             steps{
@@ -17,17 +11,10 @@ pipeline{
             }
         }
 
-        stage('Test'){
+        stage('Build Image'){
             agent any
             steps{
-                sh "mvn test"
-            }
-        }
-
-        stage('Package'){
-            agent any
-            steps{
-                sh "mvn package"
+               sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthak/latest"
             }
         }
 
