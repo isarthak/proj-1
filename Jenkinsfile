@@ -21,19 +21,19 @@ pipeline{
             }
         }
 
-        stage('Pushing Image') {
-            environment {
-                registryCredential = 'dockerhub-credentials'
-            }
-            steps{
-                script {
-                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-                        def customImage = docker.image(DOCKER_IMAGE_NAME)
-                        customImage.push()
-                    }
-                }
-            }
-        }
+//         stage('Pushing Image') {
+//             environment {
+//                 registryCredential = 'dockerhub-credentials'
+//             }
+//             steps{
+//                 script {
+//                     docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+//                         def customImage = docker.image(DOCKER_IMAGE_NAME)
+//                         customImage.push()
+//                     }
+//                 }
+//             }
+//         }
 
     }
 }
