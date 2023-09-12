@@ -36,13 +36,13 @@ pipeline {
       }
     }
 
-    stage('Deploying Spring Boot container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "proj-1-deployment")
-        }
-      }
-    }
+//     stage('Deploying Spring Boot container to Kubernetes') {
+//       steps {
+//         script {
+//           kubernetesDeploy(configs: "proj-1-deployment")
+//         }
+//       }
+//     }
 
   }
 
