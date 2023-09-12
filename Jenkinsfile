@@ -1,6 +1,10 @@
 pipeline{
-    agent any
-    tools{
+    agent {
+        docker {
+            image 'sarthakmht/proj-1:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }    tools{
         maven 'maven'
     }
     environment {
@@ -14,11 +18,10 @@ pipeline{
             }
         }
 
-        stage('Build Docker Image') {
+       stage('Build Docker Image') {
             steps {
-                // Use a shell script to build a Docker image with the desired image name
-                sh "sudo usermod -aG docker jenkins"
-                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+                // Build a Docker image using Docker-in-Docker
+                sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
             }
         }
 
