@@ -17,23 +17,26 @@ pipeline{
         stage('Build Image'){
             agent any
             steps{
-               sh "mvn spring-boot:build-image"
+                script {
+                    def imageTag = "proj-1:${timestamp}"
+                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthakmht/${imageTag}"
+                }
             }
         }
 
-//         stage('Pushing Image') {
-//             environment {
-//                 registryCredential = 'dockerhub-credentials'
-//             }
-//             steps{
-//                 script {
-//                     docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-//                         def customImage = docker.image(DOCKER_IMAGE_NAME)
-//                         customImage.push()
-//                     }
-//                 }
-//             }
-//         }
+        stage('Pushing Image') {
+            environment {
+                registryCredential = 'dockerhub-credentials'
+            }
+            steps{
+                script {
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+                        def customImage = docker.image(DOCKER_IMAGE_NAME)
+                        customImage.push()
+                    }
+                }
+            }
+        }
 
     }
 }
