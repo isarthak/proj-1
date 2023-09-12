@@ -19,7 +19,7 @@ pipeline {
       steps{
         script {
           echo("building image")
-          sh './mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${dockerimagename}'
+          sh './sudo mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${dockerimagename}'
         }
       }
     }
