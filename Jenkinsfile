@@ -17,6 +17,7 @@ pipeline{
         stage('Build Docker Image') {
             steps {
                 // Use a shell script to build a Docker image with the desired image name
+                sh "sudo usermod -aG docker jenkins"
                 sh "docker build -t ${DOCKER_IMAGE_NAME} ."
             }
         }
