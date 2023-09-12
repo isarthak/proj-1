@@ -15,7 +15,6 @@ pipeline{
         }
 
         stage('Build Image'){
-            agent any
             steps{
                 script {
                     def imageTag = "proj-1:${timestamp}"
