@@ -16,16 +16,9 @@ pipeline{
         }
 
        stage('Build Docker Image') {
-           agent {
-               dockerfile {
-                   filename 'Dockerfile' // Specify your Dockerfile path here
-                   label 'docker' // Label for the Docker agent
-                   reuseNode true // Reuse the Docker agent for multiple stages
-               }
-           }
             steps {
                 // Build a Docker image using Docker-in-Docker
-                sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
+                sh 'mvn spring-boot:build-image'
             }
         }
 
