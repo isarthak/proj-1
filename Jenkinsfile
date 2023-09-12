@@ -4,8 +4,6 @@ pipeline{
         maven 'maven'
     }
     environment {
-        DOCKER_HUB_USERNAME = credentials('docker-hub-username')
-        DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
         DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
     }
     stages{
