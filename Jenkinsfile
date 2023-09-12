@@ -1,8 +1,9 @@
 pipeline {
 
   environment {
-    dockerimagename = "sarthakmht/proj-1:latest"
-    dockerImage = ""
+    DOCKER_HUB_USERNAME = credentials('docker-hub-username')
+    DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
+    DOCKER_IMAGE_NAME  = 'sarthakmht/proj-1:latest'
   }
 
   agent any
@@ -18,7 +19,7 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build("springboot-deploy:sarthakmht/proj-1:latest")
+          sh './mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${DOCKER_IMAGE_NAME}'
         }
       }
     }
@@ -30,19 +31,19 @@ pipeline {
       steps{
         script {
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
-          }
+            def customImage = docker.image(DOCKER_IMAGE_NAME)
+            customImage.push()
         }
       }
     }
 
-    stage('Deploying Spring Boot container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "proj-1-deployment")
-        }
-      }
-    }
+//     stage('Deploying Spring Boot container to Kubernetes') {
+//       steps {
+//         script {
+//           kubernetesDeploy(configs: "proj-1-deployment")
+//         }
+//       }
+//     }
 
   }
 
