@@ -3,9 +3,9 @@ pipeline{
     tools{
         maven 'maven'
     }
-//     environment {
-// //         DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
-//     }
+    environment {
+        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
+    }
     stages{
         stage('Code Quality'){
             agent any
@@ -16,12 +16,8 @@ pipeline{
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    def timestamp = new Date().format("yyyyMMdd_HHmmss")
-                    def imageTag = "jenkins-demo:${timestamp}"
-                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=apaspxp/${imageTag}"
-                    echo "Docker image tag: ${imageTag}"
-                }
+                // Use a shell script to build a Docker image with the desired image name
+                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
             }
         }
 
