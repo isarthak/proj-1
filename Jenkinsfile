@@ -14,9 +14,10 @@ pipeline{
             }
         }
 
-        stage('Build Image'){
-            steps{
+        stage('Build Docker Image') {
+            steps {
                 script {
+                    def timestamp = new Date().format("yyyyMMdd_HHmmss")
                     def imageTag = "proj-1:${timestamp}"
                     sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthakmht/${imageTag}"
                 }
