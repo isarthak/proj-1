@@ -3,6 +3,7 @@ pipeline {
   environment {
     dockerimagename = "sarthakmht/proj-1:latest"
     dockerImage = ""
+
   }
 
   agent any
@@ -19,7 +20,7 @@ pipeline {
       steps{
         script {
           echo("building image")
-          sh './sudo mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${dockerimagename}'
+          sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${dockerimagename}'
         }
       }
     }
