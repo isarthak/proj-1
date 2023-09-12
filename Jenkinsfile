@@ -9,42 +9,41 @@ pipeline {
 
   stages {
 
-//     stage('Checkout Source') {
-//       steps {
-//         git 'https://github.com/isarthak/proj-1'
-//       }
-//     }
+    stage('Checkout Source') {
+      steps {
+        git 'https://github.com/isarthak/proj-1'
+      }
+    }
 
-//     stage('Build image') {
-//       steps{
-//         script {
-//           dockerImage = docker.build("springboot-deploy:$dockerimagename")
-//         }
-//       }
-//     }
-//
-//     stage('Pushing Image') {
-//       environment {
-//                registryCredential = 'dockerhub-credentials'
-//            }
-//       steps{
-//         script {
-//           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-//             dockerImage.push("latest")
-//           }
-//         }
-//       }
-//     }
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
+        }
+      }
+    }
 
-//     stage('Deploying Spring Boot container to Kubernetes') {
-//       steps {
-//         script {
-//           kubernetesDeploy(configs: "proj-1-deployment")
-//         }
-//       }
-//     }
+    stage('Pushing Image') {
+      environment {
+               registryCredential = 'dockerhub-credentials'
+           }
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push("latest")
+          }
+        }
+      }
+    }
+
+    stage('Deploying React.js container to Kubernetes') {
+      steps {
+        script {
+          kubernetesDeploy(configs: "proj-1-deployment.yaml")
+        }
+      }
+    }
 
   }
 
 }
-
