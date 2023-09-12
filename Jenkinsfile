@@ -16,12 +16,13 @@ pipeline{
         }
 
        stage('Build Docker Image') {
-            agent {
-               docker {
-                   image 'docker:20.10' // Use a Docker image that includes Docker
-                   args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount the Docker socket
+           agent {
+               dockerfile {
+                   filename 'Dockerfile' // Specify your Dockerfile path here
+                   label 'docker' // Label for the Docker agent
+                   reuseNode true // Reuse the Docker agent for multiple stages
                }
-             }
+           }
             steps {
                 // Build a Docker image using Docker-in-Docker
                 sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
