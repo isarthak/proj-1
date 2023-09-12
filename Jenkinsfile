@@ -9,11 +9,13 @@ pipeline {
 
   stages {
 
+try{
     stage('Checkout Source') {
       steps {
         git 'https://github.com/isarthak/proj-1'
       }
     }
+
 
     stage('Build image') {
       steps{
@@ -22,6 +24,14 @@ pipeline {
         }
       }
     }
+
+}
+catch(e){
+    currentBuild.result = "FAILED"
+    echo(e)
+    throw e
+}
+}
 
     stage('Pushing Image') {
       environment {
