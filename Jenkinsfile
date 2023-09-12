@@ -4,7 +4,7 @@ pipeline{
         maven 'maven'
     }
     environment {
-        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1'
+        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
     }
     stages{
         stage('Code Quality'){
@@ -16,14 +16,11 @@ pipeline{
 
         stage('Build Docker Image') {
             steps {
-                sh "echo hi"
-//                 script {
-//                         def timestamp = new Date().format("yyyyMMdd_HHmmss")
-//                         def imageTag = "proj-1:${timestamp}"
-//                         sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthakmht/${imageTag}"
-
-
-//                 }
+                script {
+                    def timestamp = new Date().format("yyyyMMdd_HHmmss")
+                    def imageTag = "proj-1:${timestamp}"
+                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthakmht/${DOCKER_IMAGE_NAME}"
+                }
             }
         }
 
