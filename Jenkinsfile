@@ -3,7 +3,6 @@ pipeline {
   environment {
     dockerimagename = "sarthakmht/proj-1:latest"
     dockerImage = ""
-
   }
 
   agent any
@@ -19,8 +18,7 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          echo("building image")
-          sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${dockerimagename}'
+          dockerImage = docker.build("springboot-deploy:${dockerimagename}")
         }
       }
     }
@@ -31,7 +29,6 @@ pipeline {
            }
       steps{
         script {
-          echo("pushing image")
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
             dockerImage.push("latest")
           }
