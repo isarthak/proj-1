@@ -27,7 +27,7 @@ pipeline {
     stage('Pushing Image') {
       environment {
                registryCredential = 'dockerhub-credentials'
-           }
+      }
       steps{
         script {
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
@@ -36,15 +36,6 @@ pipeline {
         }
       }
     }
-
-//     stage('Deploying Spring Boot container to Kubernetes') {
-//       steps {
-//         script {
-//           kubernetesDeploy(configs: "proj-1-deployment")
-//         }
-//       }
-//     }
-
   }
 
 }
