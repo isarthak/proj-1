@@ -17,7 +17,7 @@ pipeline{
         stage('Build Image'){
             agent any
             steps{
-               sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${DOCKER_IMAGE_NAME}"
+               sh "mvn spring-boot:build-image"
             }
         }
 
