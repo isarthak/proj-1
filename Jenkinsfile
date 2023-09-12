@@ -1,10 +1,11 @@
 pipeline{
     agent {
-        docker {
-            image 'sarthakmht/proj-1:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }    tools{
+           docker {
+               image 'docker:20.10' // Use a Docker image that includes Docker
+               args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount the Docker socket
+           }
+    }
+    tools{
         maven 'maven'
     }
     environment {
