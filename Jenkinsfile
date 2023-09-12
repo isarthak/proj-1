@@ -9,11 +9,11 @@ pipeline {
 
   stages {
 
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/isarthak/proj-1'
-      }
-    }
+//     stage('Checkout Source') {
+//       steps {
+//         git 'https://github.com/isarthak/proj-1'
+//       }
+//     }
 
     stage('Build image') {
       steps{
