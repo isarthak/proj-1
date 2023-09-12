@@ -46,7 +46,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<imageName>${project.artifactId}:latest</imageName>
+					<imageName>proj-1</imageName>
 				</configuration>
 			</plugin>
 		</plugins>
