@@ -31,7 +31,7 @@ catch(e){
     echo(e)
     throw e
 }
-}
+
 
     stage('Pushing Image') {
       environment {
