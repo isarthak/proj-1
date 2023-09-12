@@ -19,7 +19,7 @@ pipeline{
                 script {
                     def timestamp = new Date().format("yyyyMMdd_HHmmss")
                     def imageTag = "proj-1:${timestamp}"
-                    sh "mvn spring-boot:build-image -Dmodule.image.name=customname"
+                    sh "mvn spring-boot:build-image"
                 }
             }
         }
