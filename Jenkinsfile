@@ -4,7 +4,7 @@ pipeline{
         maven 'maven'
     }
     environment {
-        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
+        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1'
     }
     stages{
         stage('Code Quality'){
