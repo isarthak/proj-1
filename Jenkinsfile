@@ -3,6 +3,9 @@ pipeline{
     tools{
         maven 'maven'
     }
+    environment {
+        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
+    }
     stages{
         stage('Code Quality'){
             agent any
@@ -14,7 +17,21 @@ pipeline{
         stage('Build Image'){
             agent any
             steps{
-               sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthak/latest"
+               sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${DOCKER_IMAGE_NAME}"
+            }
+        }
+
+        stage('Pushing Image') {
+            environment {
+                registryCredential = 'dockerhub-credentials'
+            }
+            steps{
+                script {
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+                        def customImage = docker.image(DOCKER_IMAGE_NAME)
+                        customImage.push()
+                    }
+                }
             }
         }
 
