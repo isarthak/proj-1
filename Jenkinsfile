@@ -5,8 +5,7 @@ pipeline{
     }
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1'
-        DOCKER_IMAGE_TAG = "v1.0.0" // Replace with your desired tag
+        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
         DOCKERFILE_PATH = "Dockerfile"
     }
     stages{
@@ -14,15 +13,12 @@ pipeline{
             agent any
             steps{
                 sh "echo Sonarqube code quality done"
-                echo DOCKER_HUB_CREDENTIALS
             }
         }
 
         stage('Find Relative Path to Dockerfile') {
             steps {
                 script {
-                    def currentWorkspace = pwd()
-                    def dockerfilePath = findDockerfile(currentWorkspace)
                     echo "Relative path to Dockerfile: ${dockerfilePath}"
                 }
             }
@@ -31,46 +27,24 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                    def tempname = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-                    echo tempname
-                        //docker.build("sarthakmht/proj1:latest -f Dockerfile .")
-                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthakmht/proj-1:latest"
+                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${DOCKER_IMAGE_NAME}"
                 }
             }
         }
 
-//         stage('Pushing Image') {
-//             environment {
-//                 registryCredential = 'dockerhub-credentials'
-//             }
-//             steps{
-//                 script {
-//                     docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-//                         def customImage = docker.image(DOCKER_IMAGE_NAME)
-//                         customImage.push()
-//                     }
-//                 }
-//             }
-//         }
-
-    }
-}
-
-def findDockerfile(currentWorkspace) {
-    def dockerfilePath = null
-    def dockerfileNames = ['Dockerfile', 'Dockerfile.dev', 'Dockerfile.prod'] // Add more possible Dockerfile names if needed
-
-    for (def name : dockerfileNames) {
-        def dockerfile = currentWorkspace + "/" + name
-        if (fileExists(dockerfile)) {
-            dockerfilePath = name
-            break
+        stage('Pushing Docker Image') {
+            environment {
+                registryCredential = 'docker-hub-credentials'
+            }
+            steps{
+                script {
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+                        def customImage = docker.image(DOCKER_IMAGE_NAME)
+                        customImage.push()
+                    }
+                }
+            }
         }
-    }
 
-    if (dockerfilePath == null) {
-        error("No Dockerfile found in the workspace.")
     }
-
-    return dockerfilePath
 }
