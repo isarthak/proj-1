@@ -31,7 +31,6 @@ pipeline{
             }
         }
         stage('Kubernetes'){
-            agent any
             steps{
                 sh "echo Kubernetes task end"
             }
