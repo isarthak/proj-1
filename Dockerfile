@@ -1,12 +1,21 @@
-# Docker Build Maven Stage
-FROM maven:3-jdk-8-alpine AS build
-# Copy folder in docker
-WORKDIR /opt/app
-COPY ./ /opt/app
-RUN mvn clean install -DskipTests
-# Run spring boot in Docker
+# For Java 8, try this
 FROM openjdk:8-jdk-alpine
-COPY --from=build /opt/app/target/*.jar app.jar
-ENV PORT 8081
-EXPOSE $PORT
-ENTRYPOINT ["java","-jar","-Xmx1024M","-Dserver.port=${PORT}","app.jar"]
+
+# For Java 11, try this
+#FROM adoptopenjdk/openjdk11:alpine-jre
+
+# Refer to Maven build -> finalName
+ARG JAR_FILE=target/spring-boot-web.jar
+
+# cd /opt/app
+WORKDIR /opt/app
+
+# cp target/spring-boot-web.jar /opt/app/app.jar
+COPY ${JAR_FILE} spring-boot-web.jar
+
+# java -jar /opt/app/app.jar
+ENTRYPOINT ["java","-jar","spring-boot-web.jar"]
+
+## sudo docker run -p 8080:8080 -t docker-spring-boot:1.0
+## sudo docker run -p 80:8080 -t docker-spring-boot:1.0
+## sudo docker run -p 443:8443 -t docker-spring-boot:1.0
