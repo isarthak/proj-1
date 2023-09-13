@@ -6,6 +6,7 @@ pipeline{
     }
     environment {
         DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
+        registry = "211223789150.dkr.ecr.us-east-1.amazonaws.com/my-docker-repo"
     }
     stages{
         stage('Code Quality'){
@@ -18,7 +19,7 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                       def dockerImage = docker.build("springboot-deploy:latest")
+                   docker.build registry
                 }
             }
         }
