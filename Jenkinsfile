@@ -29,7 +29,7 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("-t ${DOCKER_IMAGE_NAME}:ll -f ${DOCKERFILE_PATH} .")
+                    docker.build("-t ${DOCKER_IMAGE_NAME}:ll -f Dockerfile .")
                 }
             }
         }
