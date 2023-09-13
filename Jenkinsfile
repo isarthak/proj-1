@@ -3,10 +3,6 @@ pipeline{
     tools{
         maven 'maven'
     }
-    environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
-    }
     stages{
         stage('Code Quality'){
             agent any
