@@ -38,10 +38,12 @@ pipeline{
             }
             steps{
                 script {
-                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-                        def customImage = docker.image(DOCKER_IMAGE_NAME)
-                        customImage.push()
-                    }
+
+                     def dockerHubUsername = credentials('docker-hub-username')
+                     def dockerHubPassword = credentials('docker-hub-password')
+
+                     sh "docker login -u ${dockerHubUsername} -p ${dockerHubPassword}"
+
                 }
             }
         }
