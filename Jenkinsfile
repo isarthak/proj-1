@@ -33,7 +33,7 @@ pipeline{
                 script {
                     def tempname = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     echo tempname
-                    docker.build("sarthakmht/proj-1:v1.0.0")
+                    sh "docker build -t sarthakmht/proj-1:v1.0.0 -f Dockerfile ."
                 }
             }
         }
