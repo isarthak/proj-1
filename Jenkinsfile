@@ -16,10 +16,20 @@ pipeline{
             }
         }
 
+        stage('Find Relative Path to Dockerfile') {
+            steps {
+                script {
+                    def currentWorkspace = pwd()
+                    def dockerfilePath = findDockerfile(currentWorkspace)
+                    echo "Relative path to Dockerfile: ${dockerfilePath}"
+                }
+            }
+        }
+
        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE_NAME}:ll")
+                    docker.build("-t ${DOCKER_IMAGE_NAME}:ll -f ${DOCKERFILE_PATH} .")
                 }
             }
         }
@@ -39,4 +49,23 @@ pipeline{
 //         }
 
     }
+}
+
+def findDockerfile(currentWorkspace) {
+    def dockerfilePath = null
+    def dockerfileNames = ['Dockerfile', 'Dockerfile.dev', 'Dockerfile.prod'] // Add more possible Dockerfile names if needed
+
+    for (def name : dockerfileNames) {
+        def dockerfile = currentWorkspace + "/" + name
+        if (fileExists(dockerfile)) {
+            dockerfilePath = name
+            break
+        }
+    }
+
+    if (dockerfilePath == null) {
+        error("No Dockerfile found in the workspace.")
+    }
+
+    return dockerfilePath
 }
