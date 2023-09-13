@@ -16,7 +16,9 @@ pipeline{
         }
 
        stage('Build Docker Image') {
-           dockerImage = docker.build("springboot-deploy:latest")
+            steps {
+                dockerImage = docker.build("springboot-deploy:latest")
+            }
         }
 
 //         stage('Pushing Image') {
