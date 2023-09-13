@@ -5,8 +5,8 @@ pipeline{
         maven 'maven'
     }
     environment {
-        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1:latest'
-        registry = "211223789150.dkr.ecr.us-east-1.amazonaws.com/my-docker-repo"
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_IMAGE_NAME = 'sarthakmht/proj-1'
     }
     stages{
         stage('Code Quality'){
@@ -19,7 +19,7 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=apaspxp/latest"
+                    docker.build("${DOCKER_IMAGE_NAME}:ll")
                 }
             }
         }
