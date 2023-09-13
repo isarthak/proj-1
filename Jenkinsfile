@@ -31,7 +31,7 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                    def tempname = ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+                    def tempname = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     echo tempname
                     docker.build("${tempname} -f ${DOCKERFILE_PATH} .")
                 }
