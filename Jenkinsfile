@@ -16,10 +16,7 @@ pipeline{
         }
 
        stage('Build Docker Image') {
-            steps {
-                // Build a Docker image using Docker-in-Docker
-                sh 'mvn spring-boot:build-image'
-            }
+           dockerImage = docker.build("springboot-deploy:latest")
         }
 
 //         stage('Pushing Image') {
