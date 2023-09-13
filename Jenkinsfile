@@ -33,8 +33,8 @@ pipeline{
                 script {
                     def tempname = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     echo tempname
-                        docker.build("sarthakmht/proj1:latest -f Dockerfile .")
-//                     sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=apaspxp/latest"
+                        //docker.build("sarthakmht/proj1:latest -f Dockerfile .")
+                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sarthakmht/proj-1:latest"
                 }
             }
         }
