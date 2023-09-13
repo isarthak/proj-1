@@ -19,7 +19,7 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                   docker.build registry
+                    sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=apaspxp/latest"
                 }
             }
         }
