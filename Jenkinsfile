@@ -23,21 +23,21 @@ pipeline{
             }
         }
 
-        stage('Pushing Docker Image') {
+       stage('Pushing Docker Image') {
             environment {
                 registryCredential = 'docker-hub-credentials'
             }
             steps{
                 script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'docker-hub-username', usernameVariable: 'docker-hub-password')]) {
 
-                     def dockerHubUsername = credentials('docker-hub-username')
-                     def dockerHubPassword = credentials('docker-hub-password')
-
-                     sh "docker login -u ${dockerHubUsername} -p ${dockerHubPassword}"
+                         sh docker login -u $dockerHubUsername -p $dockerHubPassword
+                         sh docker push $DOCKER_IMAGE_NAME
+                    }
 
                 }
             }
-        }
+       }
 
     }
 }
