@@ -19,7 +19,7 @@ pipeline{
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
                         def imageName = "proj-1"
-                        def timestamp = new Date().format("yyyyMMdd_HHmmss")
+                        def timestamp = new Date().format("yyyy-MM-dd_HH:mm:ss")
                         def imageTag = "${imageName}:${timestamp}"
                         sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$DOCKERHUB_USERNAME/${imageTag}"
                         sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
@@ -28,6 +28,12 @@ pipeline{
                         sh "docker push $DOCKERHUB_USERNAME/${imageName}:latest"
                    }
                 }
+            }
+        }
+        stage('Code Quality'){
+            agent any
+            steps{
+                sh "echo Kubernetes task end"
             }
         }
     }
