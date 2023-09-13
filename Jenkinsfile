@@ -7,6 +7,8 @@ pipeline{
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE_NAME = 'sarthakmht/proj-1'
+        DOCKER_IMAGE_TAG = "v1.0.0" // Replace with your desired tag
+        DOCKERFILE_PATH = "Dockerfile"
     }
     stages{
         stage('Code Quality'){
@@ -29,7 +31,7 @@ pipeline{
        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} -f Dockerfile .")
+                    docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -f ${DOCKERFILE_PATH} .")
                 }
             }
         }
