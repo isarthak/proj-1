@@ -1,6 +1,5 @@
 pipeline{
     agent any
-
     tools{
         maven 'maven'
     }
@@ -15,6 +14,7 @@ pipeline{
             agent any
             steps{
                 sh "echo Sonarqube code quality done"
+                echo DOCKER_HUB_CREDENTIALS
             }
         }
 
