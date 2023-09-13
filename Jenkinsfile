@@ -18,13 +18,14 @@ pipeline{
             steps{
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
-                       def timestamp = new Date().format("yyyyMMdd_HHmmss")
-                       def imageTag = "proj-1:${timestamp}"
-                       sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$DOCKERHUB_USERNAME/${imageTag}"
-                       sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
-                       sh "docker push $DOCKERHUB_USERNAME/${imageTag}"
-                       sh "docker tag $DOCKERHUB_USERNAME/${imageTag} $DOCKERHUB_USERNAME/proj-1:latest"
-                       sh "docker push $DOCKERHUB_USERNAME/proj-1:latest"
+                        def imageName = "proj-1"
+                        def timestamp = new Date().format("yyyyMMdd_HHmmss")
+                        def imageTag = "${imageName}:${timestamp}"
+                        sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$DOCKERHUB_USERNAME/${imageTag}"
+                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+                        sh "docker push $DOCKERHUB_USERNAME/${imageTag}"
+                        sh "docker tag $DOCKERHUB_USERNAME/${imageTag} $DOCKERHUB_USERNAME/${imageName}1:latest"
+                        sh "docker push $DOCKERHUB_USERNAME/${imageName}:latest"
                    }
                 }
             }
