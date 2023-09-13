@@ -24,7 +24,7 @@ pipeline{
                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
                        sh "docker push sarthakmht/${imageTag}"
                        sh "docker tag sarthakmht/${imageTag} sarthakmht/proj-1:latest"
-                       docker push sarthakmht/proj-1:latest
+                       sh "docker push sarthakmht/proj-1:latest"
                    }
                 }
             }
